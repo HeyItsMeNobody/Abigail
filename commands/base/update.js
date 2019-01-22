@@ -17,3 +17,7 @@ module.exports.run = async (client, message, args, config) => {
         }
     }
 }
+
+module.exports.about = {
+    name: "update"
+}

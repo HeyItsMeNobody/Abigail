@@ -3,3 +3,7 @@ module.exports.run = async (client, message, args, config) => {
         process.exit(0);
     }
 }
+
+module.exports.about = {
+    name: "close"
+}
