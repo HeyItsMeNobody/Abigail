@@ -1,0 +1,19 @@
+{
+  "name": "abigail",
+  "version": "1.0.0",
+  "description": "A discord bot",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HeyItsMeNobody/Abigail.git"
+  },
+  "author": "heyitsmenobody",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HeyItsMeNobody/Abigail/issues"
+  },
+  "homepage": "https://github.com/HeyItsMeNobody/Abigail#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  }
+}
