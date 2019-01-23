@@ -5,6 +5,13 @@ const config = require('./config.json');
 const fs = require('fs');
 const path = require('path');
 
+// Quick sqlite stuff
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('abibase');
+db.serialize(function() {
+    db.run("CREATE TABLE IF NOT EXISTS `joinlog` (`guildid` char(18) NOT NULL, `channelid` char(18) NOT NULL)");
+});
+
 client.on('ready', () => {
     console.log(`Loaded and logged in as ${client.user.tag}`);
     client.user.setStatus('dnd');
@@ -46,7 +53,33 @@ client.on('message', async message => {
     var messageStr = message.toString();
     if (!(messageStr.startsWith(prefix))) return;
     let commandfile = commands.get(cmd.slice(prefix.length));
-    if (commandfile) commandfile.run(client, message, args, config);
+    if (commandfile) commandfile.run(client, message, args, config, db);
+});
+
+client.on('guildMemberAdd', (user) => {
+    db.all(`SELECT * FROM 'joinlog' WHERE guildid = ${user.guild.id}`, (err, rows) => {
+        rows.forEach(function(row) {
+            const embed = new Discord.RichEmbed()
+                .setTitle(`${user.user.tag} (${user.id})`)
+                .setDescription(`**Joined Discord:** ${user.user.createdAt.toISOString().replace(/T/, ' ').replace(/\..+/, '')}\n**Member Count:** ${user.guild.memberCount.toString()}`)
+                .setColor("#7C44BF")
+                .setThumbnail(user.user.avatarURL)
+            client.channels.get(row.channelid).send({embed});
+        });
+    });
+});
+
+client.on('guildMemberRemove', (user) => {
+    db.all(`SELECT * FROM 'joinlog' WHERE guildid = ${user.guild.id}`, (err, rows) => {
+        rows.forEach(function(row) {
+            const embed = new Discord.RichEmbed()
+                .setTitle(`${user.user.tag} (${user.id})`)
+                .setDescription(`**Joined Discord:** ${user.user.createdAt.toISOString().replace(/T/, ' ').replace(/\..+/, '')}\n**Member Count:** ${user.guild.memberCount.toString()}`)
+                .setColor("#7C44BF")
+                .setThumbnail(user.user.avatarURL)
+            client.channels.get(row.channelid).send({embed});
+        });
+    });
 });
 
 client.on('error', error => {
