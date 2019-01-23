@@ -1,4 +1,5 @@
 const { exec } = require('child_process');
+const Discord = require('discord.js');
 
 module.exports.run = async (client, message, args, config) => {
     if (message.author.id == config.discord.ownerId) {
