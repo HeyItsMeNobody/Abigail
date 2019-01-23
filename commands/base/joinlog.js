@@ -13,6 +13,7 @@ module.exports.run = async (client, message, args, config, db) => {
                     const filter = (reaction, user) => ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
                     const collector = msg.createReactionCollector(filter, { time: 60000 });
                     collector.on('collect', r => {
+                        msg.delete();
                         if (r.emoji.name == '✅') {
                             db.run(`INSERT INTO 'joinlog' VALUES ('${message.guild.id}', '${message.channel.id}')`);
                             const embed = new Discord.RichEmbed()
@@ -37,6 +38,7 @@ module.exports.run = async (client, message, args, config, db) => {
                     const filter = (reaction, user) => ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
                     const collector = msg.createReactionCollector(filter, { time: 60000 });
                     collector.on('collect', r => {
+                        msg.delete();
                         if (r.emoji.name == '✅') {
                             db.run(`DELETE FROM 'joinlog' WHERE guildid = ${message.guild.id} AND channelid = ${message.channel.id}`);
                             const embed = new Discord.RichEmbed()
