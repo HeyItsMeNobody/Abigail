@@ -62,8 +62,9 @@ client.on('guildMemberAdd', (user) => {
             const embed = new Discord.RichEmbed()
                 .setTitle(`${user.user.tag} (${user.id})`)
                 .setDescription(`**Joined Discord:** ${user.user.createdAt.toISOString().replace(/T/, ' ').replace(/\..+/, '')}\n**Member Count:** ${user.guild.memberCount.toString()}`)
-                .setColor("#7C44BF")
+                .setColor("#3AC476")
                 .setThumbnail(user.user.avatarURL)
+                .setFooter(`Member Joined`)
             client.channels.get(row.channelid).send({embed});
         });
     });
@@ -75,8 +76,9 @@ client.on('guildMemberRemove', (user) => {
             const embed = new Discord.RichEmbed()
                 .setTitle(`${user.user.tag} (${user.id})`)
                 .setDescription(`**Joined Discord:** ${user.user.createdAt.toISOString().replace(/T/, ' ').replace(/\..+/, '')}\n**Member Count:** ${user.guild.memberCount.toString()}`)
-                .setColor("#7C44BF")
+                .setColor("#DA5246")
                 .setThumbnail(user.user.avatarURL)
+                .setFooter(`Member Left`)
             client.channels.get(row.channelid).send({embed});
         });
     });
